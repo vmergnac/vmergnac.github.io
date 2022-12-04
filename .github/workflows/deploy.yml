@@ -38,16 +38,13 @@ jobs:
     steps:
       - name: Checkout
       - uses: actions/checkout@v3
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: '16'
-
       - name: Get yarn cache
         id: yarn-cache
         run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> "${GITHUB_OUTPUT}"
-
       - name: Cache dependencies
         uses: actions/cache@v3
         with:
@@ -55,23 +52,18 @@ jobs:
           key: ${{ runner.os }}-current-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-current-
-
       - run: yarn install --frozen-lockfile
       - run: yarn build
-
       - name: Setup Pages
         uses: actions/configure-pages@v2
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
           path: './build'
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-
       # - name: Deploy
       #   uses: peaceiris/actions-gh-pages@v3
       #   if: ${{ github.ref == 'refs/heads/main' }}
